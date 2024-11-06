@@ -48,7 +48,7 @@ class TmInterfaz:
         self.decrypt_button.pack(pady=10)
 
     def validate_sentence(self, sentence):
-        return bool(re.match("^[A-ZÑ ]+$", sentence))
+        return bool(re.match("^[A-ZÑ0-9 ]+$", sentence))
 
     def validate_xor_key(self, xor_key):
         return len(xor_key) == 8 and all(c in "01" for c in xor_key)
