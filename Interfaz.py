@@ -1,6 +1,6 @@
 import re
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import messagebox, scrolledtext
 from Binary import get_binary
 from Letter import get_word
 from TuringMachine import TuringMachine
@@ -9,7 +9,7 @@ class TmInterfaz:
     def __init__(self, root):
         self.root = root
         self.root.title("Máquina de Turing - Cifrado XOR")
-        self.root.geometry("600x500")
+        self.root.geometry("600x600")
         self.root.configure(bg="#34495e")
 
         self.title_label = tk.Label(
@@ -38,10 +38,8 @@ class TmInterfaz:
         )
         self.encrypt_button.pack(pady=20)
 
-        self.result_label = tk.Label(
-            root, text="", font=("Helvetica", 14), bg="#34495e", fg="#ecf0f1"
-        )
-        self.result_label.pack(pady=10)
+        self.text_area = scrolledtext.ScrolledText(root, wrap=tk.WORD, font=("Helvetica", 14), width=50, height=10, bg="#34495e", fg="#ecf0f1")
+        self.text_area.pack(pady=10)
 
         self.decrypt_button = tk.Button(
             root, text="Descifrar", font=("Helvetica", 14, "bold"), bg="#e74c3c", fg="white", relief="flat", padx=10, pady=5, command=self.decrypt_message
@@ -79,10 +77,11 @@ class TmInterfaz:
             encrypted_words.append("".join(encrypted_word))
 
         encrypted_message = " ".join(encrypted_words)
-        self.result_label.config(text=f"Mensaje cifrado: {encrypted_message}")
+        self.text_area.delete(1.0, tk.END)
+        self.text_area.insert(tk.END, f"Mensaje cifrado: {encrypted_message}")
 
     def decrypt_message(self):
-        encrypted_message = self.result_label.cget("text").replace("Mensaje cifrado: ", "")
+        encrypted_message = self.text_area.get(1.0, tk.END).strip().replace("Mensaje cifrado: ", "")
         xor_key = self.entry_key.get()
 
         if not encrypted_message:
@@ -99,7 +98,7 @@ class TmInterfaz:
             decrypted_words.append("".join(decrypted_word))
 
         decrypted_message = " ".join(decrypted_words)
-        self.result_label.config(text=f"Mensaje descifrado: {decrypted_message}")
+        self.text_area.insert(tk.END, f"\nMensaje descifrado: {decrypted_message}")
 
     def show_error_popup(self, message):
         messagebox.showerror("Error", message)
