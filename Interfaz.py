@@ -1,5 +1,6 @@
 import re
 import tkinter as tk
+from tkinter import messagebox
 from Binary import get_binary
 from Letter import get_word
 from TuringMachine import TuringMachine
@@ -8,42 +9,42 @@ class TmInterfaz:
     def __init__(self, root):
         self.root = root
         self.root.title("Máquina de Turing - Cifrado XOR")
-        self.root.geometry("500x450")
-        self.root.configure(bg="#2c3e50")
+        self.root.geometry("600x500")
+        self.root.configure(bg="#34495e")
 
         self.title_label = tk.Label(
-            root, text="Máquina de Turing - Cifrado XOR", font=("Helvetica", 20, "bold"), bg="#2c3e50", fg="#ecf0f1"
+            root, text="Máquina de Turing - Cifrado XOR", font=("Helvetica", 20, "bold"), bg="#34495e", fg="#ecf0f1"
         )
         self.title_label.pack(pady=20)
 
         self.label_sentence = tk.Label(
-            root, text="Ingresa la oración:", font=("Helvetica", 12), bg="#2c3e50", fg="#bdc3c7"
+            root, text="Ingresa la oración:", font=("Helvetica", 14), bg="#34495e", fg="#bdc3c7"
         )
         self.label_sentence.pack(pady=10)
 
-        self.entry_sentence = tk.Entry(root, font=("Helvetica", 12))
+        self.entry_sentence = tk.Entry(root, font=("Helvetica", 14), width=50)
         self.entry_sentence.pack(pady=10)
 
         self.label_key = tk.Label(
-            root, text="Ingresa un código de 8 dígitos binarios:", font=("Helvetica", 12), bg="#2c3e50", fg="#bdc3c7"
+            root, text="Ingresa un código de 8 dígitos binarios:", font=("Helvetica", 14), bg="#34495e", fg="#bdc3c7"
         )
         self.label_key.pack(pady=10)
 
-        self.entry_key = tk.Entry(root, font=("Helvetica", 12))
+        self.entry_key = tk.Entry(root, font=("Helvetica", 14), width=20)
         self.entry_key.pack(pady=10)
 
         self.encrypt_button = tk.Button(
-            root, text="Cifrar", font=("Helvetica", 12, "bold"), bg="#3498db", fg="white", relief="flat", padx=10, pady=5, command=self.encrypt_message
+            root, text="Cifrar", font=("Helvetica", 14, "bold"), bg="#1abc9c", fg="white", relief="flat", padx=10, pady=5, command=self.encrypt_message
         )
         self.encrypt_button.pack(pady=20)
 
         self.result_label = tk.Label(
-            root, text="", font=("Helvetica", 12), bg="#2c3e50", fg="#ecf0f1"
+            root, text="", font=("Helvetica", 14), bg="#34495e", fg="#ecf0f1"
         )
         self.result_label.pack(pady=10)
 
         self.decrypt_button = tk.Button(
-            root, text="Descifrar", font=("Helvetica", 12, "bold"), bg="#e74c3c", fg="white", relief="flat", padx=10, pady=5, command=self.decrypt_message
+            root, text="Descifrar", font=("Helvetica", 14, "bold"), bg="#e74c3c", fg="white", relief="flat", padx=10, pady=5, command=self.decrypt_message
         )
         self.decrypt_button.pack(pady=10)
 
@@ -61,7 +62,7 @@ class TmInterfaz:
         xor_key = self.entry_key.get()
 
         if not self.validate_sentence(sentence):
-            self.show_error_popup("Entrada inválida. Solo letras sin acentos ni caracteres especiales, espacios y números.")
+            self.show_error_popup("Entrada inválida. Solo se permiten letras sin acentos ni caracteres especiales, espacios y números.")
             return
         
         if not self.validate_xor_key(xor_key):
@@ -101,20 +102,7 @@ class TmInterfaz:
         self.result_label.config(text=f"Mensaje descifrado: {decrypted_message}")
 
     def show_error_popup(self, message):
-        popup = tk.Toplevel(self.root)
-        popup.title("Error")
-        popup.geometry("400x150")
-        popup.configure(bg="#2c3e50")
-
-        label = tk.Label(
-            popup, text=message, font=("Helvetica", 12, "bold"), bg="#2c3e50", fg="#e74c3c"
-        )
-        label.pack(pady=20)
-
-        close_button = tk.Button(
-            popup, text="Cerrar", font=("Helvetica", 12, "bold"), bg="#3498db", fg="white", relief="flat", padx=10, pady=5, command=popup.destroy
-        )
-        close_button.pack(pady=10)
+        messagebox.showerror("Error", message)
 
 if __name__ == "__main__":
     root = tk.Tk()
